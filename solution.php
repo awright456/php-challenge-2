@@ -33,5 +33,26 @@ function users_with_top_score_on_date($pdo, $date)
 
 function times_user_beat_overall_daily_average($pdo, $user_id)
 {
-    // YOUR CODE GOES HERE
+    // get days the user played
+	$days_played = $pdo->query("SELECT date FROM scores WHERE user_id = $user_id")->fetchAll(PDO::FETCH_COLUMN);
+	$counter = 0;
+	//echo var_export($days_played);
+	//get the average on those days
+	//if the players score is greater than the average, add 1 to the count
+	foreach( $days_played as $day)
+	{
+		echo 'day:'.var_export($day);
+		$average = $pdo->query("SELECT AVG(score) FROM scores WHERE date = '$day'" )->fetchAll(PDO::FETCH_COLUMN);
+		$score =  $pdo->query("SELECT score FROM scores WHERE date = '$day' AND user_id = $user_id" )->fetchAll(PDO::FETCH_COLUMN);
+		
+		//echo '-average:'.var_export($average);
+		//echo '-score:'.var_export($score);
+		echo $score[0] > $average[0];
+		if( $score[0] > $average[0])
+			$counter++;
+		
+	}
+	echo 'counter'.$counter;
+	return $counter;
+	
 }
