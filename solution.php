@@ -27,7 +27,8 @@ function dates_with_at_least_n_scores($pdo, $n)
 
 function users_with_top_score_on_date($pdo, $date)
 {
-    // YOUR CODE GOES HERE
+    // fetches the top scores on a date, then gets the user id for that top score on that date
+	return $pdo->query("SELECT user_id FROM scores WHERE date = '$date' AND score  IN  ( SELECT MAX(score) FROM scores WHERE date = '$date')")->fetchAll(PDO::FETCH_COLUMN);
 }
 
 function times_user_beat_overall_daily_average($pdo, $user_id)
