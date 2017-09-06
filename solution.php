@@ -1,9 +1,22 @@
 <?php
-// YOUR NAME AND EMAIL GOES HERE
+// Amy Wright
+// axw4424@gmail.com
 
 function parse_request($request, $secret)
 {
-    // YOUR CODE GOES HERE
+    // decodes the request by undoing what was done in make_request
+	$str = strtr($request, '-_', '+/');
+	$str = explode(".", $str);
+	assert( count($str) == 2);
+	
+	$signature = base64_decode($str[0]);
+	$payload = base64_decode($str[1]);
+	$payload = json_decode($payload, true);
+	
+	return $payload;
+	
+	
+		
 }
 
 function dates_with_at_least_n_scores($pdo, $n)
