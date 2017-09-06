@@ -21,7 +21,8 @@ function parse_request($request, $secret)
 
 function dates_with_at_least_n_scores($pdo, $n)
 {
-    // YOUR CODE GOES HERE
+    // fetches the dates in the database which have scores greater than or equal to n
+	return  $pdo->query("SELECT DISTINCT date FROM scores WHERE score >= $n ORDER BY date DESC")->fetchAll(PDO::FETCH_COLUMN);
 }
 
 function users_with_top_score_on_date($pdo, $date)
